@@ -1,7 +1,10 @@
 from time import sleep
 
-print("Programado por Juliano Martins de Souza\n\n")
+print()
+print("Programado por Juliano Martins de Souza\n".center(60))
 
+print("=-" * 30)
+print()
 print("Bem vindo ao Poa's Bank ".center(60))
 
 menu = """
@@ -13,6 +16,8 @@ menu = """
                     (0) => Sair
 
     Digite p número que corresponde ao serviço desejado:
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 """
 
 LIMITE_SAQUE = 500  # Constante, valor não deve ser alterado
@@ -20,60 +25,81 @@ saque_diario = 3
 
 extrato = ""
 saldo = 0.0
-print("=-" * 30)
+
 while True:
     opcao = int(input(menu))
     print("=-" * 30)
 
+    # Fechar o programa
+    if opcao == 0:
 
-    if opcao == 0:  # Opção para sair do sistema
-        print("=-" * 30)
         print("Obrigado por visitar o Poa's Bank".center(60))
-        sleep(1)
+        print("=-" * 30)
+        sleep(2)
         break
 
-    elif opcao == 1:    # Opção para realizar depósito
-        valor = input("Digite o valor a depositar: ")
+    # Realização de depósito
+    elif opcao == 1:
+
+        print("Digite o valor a depositar: ".center(60))
+        valor = input()
         valor = float(valor)
 
-        if valor > 0:   # Verifica se o depósito será realizado com valores positivos
+        # Validação, depósito só ocorre com valores positivos
+        if valor > 0:
             saldo += valor
-            print("=-" * 30)
             extrato += f"Deposito: R$ {valor:.2f}. Saldo atual R$ {saldo:.2f}\n"
+            print("Deposito realizado com sucesso".center(60))
+            print("=-" * 30)
             sleep(1)
-        else:
-            print("Valor de depósito inválido")
 
-    elif opcao == 2:    # Opção para realizar saque
+        else:
+            print("Valor de depósito inválido".center(60))
+            print("=-" * 30)
+            sleep(1)
+
+    # Realização de saque
+    elif opcao == 2:
         if saque_diario > 0:
-            valor = input("Digite o valor a sacar: ")
+            print("Digite o valor a sacar: ".center(60))
+            valor = input()
             valor = float(valor)
 
+            # Validação, verifica se o valor do saque está abaixo do limite por operação
             if valor <= LIMITE_SAQUE:
+
+                # Validação, verifica se há saldo em conta para o saque
                 if valor <= saldo:
                     saldo -= valor
                     saque_diario -= 1
                     print("=-" * 30)
                     extrato += f"Saque: R$ {valor:.2f}. Saldo atual: R$ {saldo:.2f}\n"
                     sleep(1)
+
                 else:
-                    print("Saldo insuficiente")
+                    print("Saldo insuficiente".center(60))
+                    print("=-" * 30)
                     sleep(1)
+
             else:
-                print("Limite diário de saque excedido, favor consultar a gerência")
+                print("Limite diário de saque excedido, favor consultar a gerência".center(60))
                 print("=-" * 30)
                 sleep(1)
 
         else:
-            print("Limite de saque diários excedidos, duvidas, favor consultar a gerência")
+            print("Limite de saque diários excedidos, duvidas, favor consultar a gerência".center(60))
             print("=-" * 30)
             sleep(1)
 
+    # Retorna o extrato atualizado ao cliente
     elif opcao == 3:
+
+        # Validação, nega impressão do extrato caso o mesmo esteja sem informações
         if extrato is None or len(extrato) == 0:
-            print("Não há registros de movimentações nesta conta.")
+            print("Não há registros de movimentações nesta conta.".center(60))
             print("=-" * 30)
             sleep(1)
+
         else:
             print(f"Extrato:".center(60))
             print(extrato)

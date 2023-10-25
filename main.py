@@ -22,7 +22,7 @@ def deposito(valor, saldo, extrato):
         print("Valor inválido para depósito".center(60))
         print("Em caso de duvidas, favor entrar em contato com seu gerente de conta".center(60))
         print("=-" * 30)
-        return None
+        return saldo, extrato
 
 
 # Método realiza saque da conta
@@ -37,17 +37,17 @@ def saque(valor, saldo, extrato, saque_diario):
             print("=-" * 30)
             print("Saque realizado com sucesso")
             print("=-" * 30)
-            return saldo, extrato
+            return saldo, extrato, saque_diario
         else:
             print("=-" * 30)
             print("Limite de saque diário excedido")
             print("=-" * 30)
-            return None
+            return saldo, extrato, saque_diario
     else:
         print("=-" * 30)
         print("Valor soliticado acima do permitido")
         print("=-" * 30)
-        return None
+        return saldo, extrato, saque_diario
 
 
 # Método retorna o extrato
@@ -110,7 +110,7 @@ while True:
             print("Digite o valor a sacar: ".center(60))
             valor = input()
             valor = float(valor)
-            saldo, extrato = saque(valor, saldo, extrato, saque_diario)
+            saldo, extrato, saque_diario = saque(valor, saldo, extrato, saque_diario)
 
         # Retorna o extrato atualizado ao cliente
         case 3:

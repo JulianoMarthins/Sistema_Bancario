@@ -1,12 +1,17 @@
 from banco import operacoes
 from banco import cliente
 from banco import conta
+import textwrap
 
 LIMITE_SAQUE = 500  # Constante, valor não deve ser alterado
 saque_diario = 3
 
 extrato = ""
 saldo = 0.0
+contador_contas_criadas = 1
+
+clientes = []
+contas = []
 
 print()
 print("Programado por Juliano Martins de Souza\n".center(60))
@@ -23,6 +28,7 @@ menu = """
                     (3) => Extrato
                     (4) => Cadastrar um novo cliente
                     (5) => Cadastrar conta bancária
+                    (6) => Clientes cadastrados
                     (0) => Sair
 
     Digite o número que corresponde ao serviço desejado:
@@ -71,31 +77,27 @@ while True:
 
         # Cadastra novos clientes
         case 4:
-            """
-                * Armazenar os usuários em uma lista
-                * O usuário é composto por nome, data de nascimento, cpf, endereço -> dicionário
-                * O endereço deve ter: Logradouro, numero, bairro, cidade, estado -> lista no endereco
-                * Deve ser armazenado somente os números do CPF
-                * Não pode ter CPF's repetidos
-            """
-            continue
-
+            print("Cadastro de cliete: ".center(60))
+            print("Digite os dados do cliente: ".center(60))
+            cliente_cadastrado = cliente.cadastrar_cliente()
+            clientes.append(cliente_cadastrado);
+            print('=-' * 30)
+            
         # Cadastra nova conta
         case 5:
-            """
-                * Armazenar em uma lista
-                * Conta possuí: agência, número da conta, usuário
-                * número da conta é seguêncial sendo a primeira o a conta número 1
-                * O número da agência é fixo: "0001"
-                * Usuário pode ter várias contas, mas uma conta pertencia a somente um usuário
-                * Momento de criar a conta, deve ser vinculado obrigatóriamente a um usuário
-                
-                Obs: Para vincular um usuário a uma conta, filtre a lista de usuários buscando o número de CPF
-                informado para cada usuário da lista.
-                
-            """
+            print("Abertura de conta")
+
+            conta_aberta, contador_contas_criadas = conta.criar_conta(contas, contador_contas_criadas)
+            contas.append(conta_aberta)
+            
+            conta.associacao_conta(contas=contas, clientes=clientes)
+
 
             continue
+
+        case 6:
+            print(clientes)
+           
 
         case _:
             print("ERRO! \n Valor digitado é inválido")

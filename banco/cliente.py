@@ -1,18 +1,20 @@
 def cadastrar_cliente():
-    return None
+    cpf = input("CPF: ").replace('-', '').replace('.', '')
 
-def deletar_cliente():
-    return None
+    if cpf not in clientes:
+        nome = input("Nome: ")
+        nascimento = input("Data de nascimento => [dd/mm/aaaa]: ")
+        rua = input("Rua: ")
+        bairro = input("Bairro: ")
+        cidade = input("Cidade: ")
+        estado = input("UF: ")
 
-def atualizar_cliente():
-    return None
+        endereco = [rua, bairro, cidade, estado]
+        cadastro = {'nome': nome, 'cpf': cpf, 'nascimento': nascimento, 'endereco': endereco}
 
-
-
-"""
-                * Armazenar os usuários em uma lista
-                * O usuário é composto por nome, data de nascimento, cpf, endereço -> dicionário
-                * O endereço deve ter: Logradouro, numero, bairro, cidade, estado -> lista no endereco
-                * Deve ser armazenado somente os números do CPF
-                * Não pode ter CPF's repetidos
-            """
+        return cadastro
+    
+    else:
+        print("CPF já cadastrado. Em caso de dúdivdas, favor falar com seu gerente de conta")
+        return None
+            

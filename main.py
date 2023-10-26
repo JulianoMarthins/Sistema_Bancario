@@ -1,63 +1,12 @@
-import os
+from banco import operacoes
+from banco import cliente
+from banco import conta
 
 LIMITE_SAQUE = 500  # Constante, valor não deve ser alterado
 saque_diario = 3
 
 extrato = ""
 saldo = 0.0
-
-
-# Método realiza deposito na conta
-# Validação: Não aceito valores iguais ou inferior a zero
-def deposito(valor, saldo, extrato):
-    if valor > 0:
-        saldo += valor
-        extrato += f"Deposito: R$ {valor:.2f}; Saldo: R$ {saldo:.2f}\n"
-        print("=-" * 30)
-        print("Deposito realizado com sucesso")
-        print("=-" * 30)
-        return saldo, extrato
-    else:
-        print("=-" * 30)
-        print("Valor inválido para depósito".center(60))
-        print("Em caso de duvidas, favor entrar em contato com seu gerente de conta".center(60))
-        print("=-" * 30)
-        return saldo, extrato
-
-
-# Método realiza saque da conta
-# Validação: Limite de três saques por dia
-# Validação: Limite de R$ 500,00 por saque
-def saque(valor, saldo, extrato, saque_diario):
-    if valor <= LIMITE_SAQUE:
-        if saque_diario > 0:
-            saldo -= valor
-            extrato += f"Saque: R$ {valor:.2f}; Saldo: R$ {saldo:.2f}\n"
-            saque_diario -= 1
-            print("=-" * 30)
-            print("Saque realizado com sucesso")
-            print("=-" * 30)
-            return saldo, extrato, saque_diario
-        else:
-            print("=-" * 30)
-            print("Limite de saque diário excedido")
-            print("=-" * 30)
-            return saldo, extrato, saque_diario
-    else:
-        print("=-" * 30)
-        print("Valor soliticado acima do permitido")
-        print("=-" * 30)
-        return saldo, extrato, saque_diario
-
-
-# Método retorna o extrato
-# Validação: Verifica se o extrato possui lançamento para impressão
-def mostrar_extrato(extrato):
-    if extrato is None or len(extrato) == 0:
-        return "Não há movimentação neta conta".center(60)
-    else:
-        return extrato
-
 
 print()
 print("Programado por Juliano Martins de Souza\n".center(60))
@@ -103,28 +52,49 @@ while True:
                 except Exception as e:
                     print("Digite um valor válido: ")
 
-            saldo, extrato = deposito(valor=valor, saldo=saldo, extrato=extrato)
+            saldo, extrato = operacoes.deposito(valor=valor, saldo=saldo, extrato=extrato)
 
         # Realização de saque
         case 2:
             print("Digite o valor a sacar: ".center(60))
             valor = input()
             valor = float(valor)
-            saldo, extrato, saque_diario = saque(valor, saldo, extrato, saque_diario)
+            saldo, extrato, saque_diario = operacoes.saque(valor, saldo, extrato,
+                                                           saque_diario, LIMITE_SAQUE)
 
         # Retorna o extrato atualizado ao cliente
         case 3:
             print(f"Extrato:".center(60))
-            texto = mostrar_extrato(extrato)
+            texto = operacoes.mostrar_extrato(extrato)
             print(texto)
             print("=-" * 30)
 
         # Cadastra novos clientes
         case 4:
+            """
+                * Armazenar os usuários em uma lista
+                * O usuário é composto por nome, data de nascimento, cpf, endereço -> dicionário
+                * O endereço deve ter: Logradouro, numero, bairro, cidade, estado -> lista no endereco
+                * Deve ser armazenado somente os números do CPF
+                * Não pode ter CPF's repetidos
+            """
             continue
 
         # Cadastra nova conta
         case 5:
+            """
+                * Armazenar em uma lista
+                * Conta possuí: agência, número da conta, usuário
+                * número da conta é seguêncial sendo a primeira o a conta número 1
+                * O número da agência é fixo: "0001"
+                * Usuário pode ter várias contas, mas uma conta pertencia a somente um usuário
+                * Momento de criar a conta, deve ser vinculado obrigatóriamente a um usuário
+                
+                Obs: Para vincular um usuário a uma conta, filtre a lista de usuários buscando o número de CPF
+                informado para cada usuário da lista.
+                
+            """
+
             continue
 
         case _:
